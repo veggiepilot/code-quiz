@@ -1,6 +1,28 @@
  
 // Start the quiz when the start button is clicked
+var startGame = document.getElementById('game-start');
+var timeEl    = document.getElementById('timer');
+var secondsLeft = 60;
+
+
 // A countdown timer starts when the button is clicked.
+startGame.addEventListener('click', function() {
+
+    function setTime() {
+        // Sets interval in variable
+        var timerInterval = setInterval(function() {
+            secondsLeft--;
+            timeEl.textContent = secondsLeft;
+
+            if (secondsLeft === 0) {
+                clearInterval(timerInterval);
+            }
+        }, 1000) 
+    }
+    setTime();
+})
+
+
 // Create a list of questions to ask the student
 // A student chooses the correct answer by clicking the button corresponding to the answer.
 // A student gets 1 point for every correct answer.
