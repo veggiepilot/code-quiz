@@ -4,13 +4,16 @@ var startGame    = document.getElementById('game-start');
 var timeEl       = document.getElementById('timer');
 var quizHeading  = document.getElementById('quiz-heading');
 var quizQuestion = document.getElementById('quiz-question');
+var answerList   = document.getElementById('answer-list');
+var liTag        = document.createElement('li');
 var secondsLeft  = 60;
+
 
 // Question bank objects in an array
 var questionBank = [
     {
         question: "What is the correct syntax for referring to an external script called 'xxx.js'?",
-        answers: ["<script name='xxx.js'>", "<script href='xxx.js'", "<script src='xxx.js'"],
+        answers: ["<script name='xxx.js'>", "<script href='xxx.js'>", "<script src='xxx.js'>"],
         correctAnswer: "<script src='xxx.js'",
         answered: 'no'
     }, 
@@ -40,6 +43,9 @@ var questionBank = [
     }
 ];
 
+// Answers array assigned to a variable
+var answersArray = questionBank[0].answers;
+
 // A countdown timer starts when the button is clicked.
 startGame.addEventListener('click', function() {
 
@@ -68,12 +74,23 @@ function generateQuestion() {
         if (questionBank[i].answered === 'no') {
             questionBank[i].answered = 'yes';
             quizQuestion.innerHTML = questionBank[i].question;
+            displayAnswers();
             return;
         }
     }
 }
 
-// Function to choose a question to display
+// Function to display answers
+function displayAnswers() {
+
+        for (var a = 0; a < answersArray.length; a++) {
+            liTag.textContent = answersArray[a];
+            answerList.appendChild(liTag);
+        }
+
+}
+
+
 
 
 // A student chooses the correct answer by clicking the button corresponding to the answer.
@@ -84,7 +101,3 @@ function generateQuestion() {
 // At the end of the quiz, a pop up  comes up with a form to input your initials.
 // You will have an option to view high scores
 
-
-
-
-console.log(questionBank[0].answered);
