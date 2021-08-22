@@ -1,19 +1,56 @@
  
 // Start the quiz when the start button is clicked
-var startGame = document.getElementById('game-start');
-var timeEl    = document.getElementById('timer');
-var secondsLeft = 60;
+var startGame    = document.getElementById('game-start');
+var timeEl       = document.getElementById('timer');
+var quizHeading  = document.getElementById('quiz-heading');
+var quizQuestion = document.getElementById('quiz-question');
+var secondsLeft  = 60;
 
+// Question bank objects in an array
+var questionBank = [
+    {
+        question: "What is the correct syntax for referring to an external script called 'xxx.js'?",
+        answers: ["<script name='xxx.js'>", "<script href='xxx.js'", "<script src='xxx.js'"],
+        correctAnswer: "<script src='xxx.js'",
+        answered: 'no'
+    }, 
+    {
+        question: "How do you write 'Hello World' in an alert box?",
+        answers: ["alertBox('Hello World')", "alert('Hello World')", "msg('Hello World')"],
+        correctAnswer: "alert('Hello World')",
+        answered: 'no'
+    }, 
+    {
+        question: "How do you create a function in JavaScript?",
+        answers: ["function:myFunction()", "function=myFunction()", "function myFunction()"],
+        correctAnswer: "function myFunction()",
+        answered: 'no'
+    }, 
+    {
+        question: "How does a FOR loop start?",
+        answers: ["for(i<=5; i++)", "for(i=0; i<=5; i++)", "for(i=0; i<=5)"],
+        correctAnswer: "for(i=0; i<=5; i++)",
+        answered: 'no'
+    }, 
+    {
+        question: "Which event occurs when the user clicks on an HTML element?",
+        answers: ["onclick", "onchange", "onmouseclick"],
+        correctAnswer: "onclick",
+        answered: 'no'
+    }
+];
 
 // A countdown timer starts when the button is clicked.
 startGame.addEventListener('click', function() {
+
+    generateQuestion();
 
     function setTime() {
         // Sets interval in variable
         var timerInterval = setInterval(function() {
             secondsLeft--;
             timeEl.textContent = secondsLeft;
-
+            //Stops execution of setTime function at 0 seconds.
             if (secondsLeft === 0) {
                 clearInterval(timerInterval);
             }
@@ -23,7 +60,22 @@ startGame.addEventListener('click', function() {
 })
 
 
-// Create a list of questions to ask the student
+// Function to create question
+function generateQuestion() {
+    quizHeading.innerHTML  = '';
+    startGame.remove();
+    for (var i = 0; i <= questionBank.length; i++) {
+        if (questionBank[i].answered === 'no') {
+            questionBank[i].answered = 'yes';
+            quizQuestion.innerHTML = questionBank[i].question;
+            return;
+        }
+    }
+}
+
+// Function to choose a question to display
+
+
 // A student chooses the correct answer by clicking the button corresponding to the answer.
 // A student gets 1 point for every correct answer.
 // When a question has been answered, a message comes up to confirm whether the answer is correct or wrong. 
@@ -33,30 +85,6 @@ startGame.addEventListener('click', function() {
 // You will have an option to view high scores
 
 
-var questionBank = [
-    {
-        question: "What is the correct syntax for referring to an external script called 'xxx.js'?",
-        answers: ["<script name='xxx.js'>", "<script href='xxx.js'", "<script src='xxx.js'"],
-        correctAnswer: "<script src='xxx.js'" 
-    }, 
-    {
-        question: "How do you write 'Hello World' in an alert box?",
-        answers: ["alertBox('Hello World')", "alert('Hello World')", "msg('Hello World')"],
-        correctAnswer: "alert('Hello World')" 
-    }, 
-    {
-        question: "How do you create a function in JavaScript?",
-        answers: ["function:myFunction()", "function=myFunction()", "function myFunction()"],
-        correctAnswer: "function myFunction()" 
-    }, 
-    {
-        question: "How does a FOR loop start?",
-        answers: ["for(i<=5; i++)", "for(i=0; i<=5; i++)", "for(i=0; i<=5)"],
-        correctAnswer: "for(i=0; i<=5; i++)" 
-    }, 
-    {
-        question: "Which event occurs when the user clicks on an HTML element?",
-        answers: ["onclick", "onchange", "onmouseclick"],
-        correctAnswer: "onclick" 
-    }
-];
+
+
+console.log(questionBank[0].answered);
