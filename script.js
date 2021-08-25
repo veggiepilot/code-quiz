@@ -7,8 +7,8 @@ var quizQuestion = document.getElementById('quiz-question');
 var answerList   = document.getElementById('answer-list');
 var secondsLeft  = 60;
 var ul           = document.getElementById('answer-list');
-
-
+var points       = 0;
+var questionID;
 
 // Question bank objects in an array
 var questionBank = [
@@ -51,14 +51,16 @@ var answersArray = questionBank[0].answers;
 startGame.addEventListener('click', function() {
 
     generateQuestion();
+    points = 0;
 
     function setTime() {
+
         // Sets interval in variable
         var timerInterval = setInterval(function() {
             secondsLeft--;
             timeEl.textContent = secondsLeft;
             //Stops execution of setTime function at 0 seconds.
-            if (secondsLeft === 0) {
+            if (secondsLeft === 0) {    
                 clearInterval(timerInterval);
             }
         }, 1000) 
@@ -70,46 +72,51 @@ startGame.addEventListener('click', function() {
 function generateQuestion() {
     quizHeading.innerHTML  = '';
     startGame.remove();
-    for (var i = 0; i <= questionBank.length; i++) {
+
+    for (var i = 0; i < questionBank.length; i++) {
+        var answersArray = questionBank[i].answers;
+        questionID = i;
         if (questionBank[i].answered === 'no') {
             questionBank[i].answered = 'yes';
             quizQuestion.innerHTML = questionBank[i].question;
-            displayAnswers();
+            // displayAnswers();
+            for (var a = 0; a < answersArray.length; a++) {
+                //Creating a list tag
+                var liTag = document.createElement('li');
+                liTag.classList.add('mb-1', 'list-unstyled', 'btn', 'btn-info', 'mx-2');
+                liTag.setAttribute('id', a);
+                liTag.textContent = answersArray[a];
+                answerList.appendChild(liTag);
+            }
+ 
             return;
         }
-    }
-}
 
-// Function to display answers
-function displayAnswers() {
-
-    for (var a = 0; a < answersArray.length; a++) {
-        //Creating a list tag
-        var liTag = document.createElement('li');
-        liTag.classList.add('mb-1', 'list-unstyled', 'btn', 'btn-info', 'mx-2');
-        liTag.setAttribute('id', a);
-        liTag.textContent = answersArray[a];
-        answerList.appendChild(liTag);
     }
 
 }
 
 ul.addEventListener('click', function(event) {
-    console.log(event.target.id);
-    console.log(questionBank[0].correctAnswer);
-    if ( questionBank[0].answers[event.target.id] === questionBank[0].correctAnswer ) {
+    if ( questionBank[questionID].answers[event.target.id] === questionBank[questionID].correctAnswer ) {
+        points += 2;
         var h6 = document.createElement('h6');
         h6.innerText = 'You got it!';
         quizQuestion.appendChild(h6);
-        console.log('correct');
+        generateQuestion();
+        // To refactor
+        document.getElementById(0).remove();
+        document.getElementById(1).remove();
+        document.getElementById(2).remove();
     } else {
-
+        secondsLeft -= 5;
+        generateQuestion();
+        // To refactor
+        document.getElementById(0).remove();
+        document.getElementById(1).remove();
+        document.getElementById(2).remove();
     }
     
-})
-// function answerCheck(event) {
-//     event.target
-// }
+});
 
 
 
