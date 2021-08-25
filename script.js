@@ -9,6 +9,7 @@ var secondsLeft  = 60;
 var ul           = document.getElementById('answer-list');
 var points       = 0;
 var questionID;
+var answerMessage = document.getElementById('answerMessage');
 
 // Question bank objects in an array
 var questionBank = [
@@ -99,14 +100,15 @@ function generateQuestion() {
 ul.addEventListener('click', function(event) {
     if ( questionBank[questionID].answers[event.target.id] === questionBank[questionID].correctAnswer ) {
         points += 2;
-        var h6 = document.createElement('h6');
-        h6.innerText = 'You got it!';
-        quizQuestion.appendChild(h6);
         generateQuestion();
         // To refactor
         document.getElementById(0).remove();
         document.getElementById(1).remove();
         document.getElementById(2).remove();
+        answerMessage.innerText = 'Correct!';
+        setTimeout(function() {
+            answerMessage.innerText = ''
+        }, 1000)
     } else {
         secondsLeft -= 5;
         generateQuestion();
@@ -114,6 +116,10 @@ ul.addEventListener('click', function(event) {
         document.getElementById(0).remove();
         document.getElementById(1).remove();
         document.getElementById(2).remove();
+        answerMessage.innerText = 'Wrong!';
+        setTimeout(function() {
+            answerMessage.innerText = ''
+        }, 1000)
     }
     
 });
@@ -122,7 +128,6 @@ ul.addEventListener('click', function(event) {
 
 
 // A student chooses the correct answer by clicking the button corresponding to the answer.
-// A student gets 1 point for every correct answer.
 // If the timer gets to zero, a message pops up that stops the quiz.
 // At the end of the quiz, a pop up  comes up with a form to input your initials.
 // You will have an option to view high scores
