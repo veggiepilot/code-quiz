@@ -9,7 +9,13 @@ var secondsLeft  = 60;
 var ul           = document.getElementById('answer-list');
 var points       = 0;
 var questionID;
-var answerMessage = document.getElementById('answerMessage');
+var answerMessage  = document.getElementById('answerMessage');
+var pTags          = document.getElementById('paragraph-tags');
+var inputForm      = document.getElementById('input-form');
+var completionPage = document.getElementById('all-done');
+var formSubmit     = document.getElementById('form-submit');
+var endText        = document.getElementById('all-done');
+
 
 // Question bank objects in an array
 var questionBank = [
@@ -54,6 +60,7 @@ startGame.addEventListener('click', function() {
     generateQuestion();
     points = 0;
 
+
     function setTime() {
 
         // Sets interval in variable
@@ -71,7 +78,9 @@ startGame.addEventListener('click', function() {
 
 // Function to create question
 function generateQuestion() {
+
     quizHeading.innerHTML  = '';
+    pTags.innerText = '';
     startGame.remove();
 
     for (var i = 0; i < questionBank.length; i++) {
@@ -94,6 +103,23 @@ function generateQuestion() {
         }
 
     }
+
+    quizQuestion.innerText = '';
+    var inputTag = document.createElement('input');
+    inputTag.classList.add('form-control');
+    inputTag.setAttribute('type', 'text');
+    inputTag.setAttribute('placeholder', 'Enter initials here');
+    inputForm.appendChild(inputTag);
+
+    var formSubmitButton = document.createElement('button');
+    formSubmitButton.classList.add('btn', 'btn-primary');
+    formSubmitButton.setAttribute('type', 'submit');
+    formSubmitButton.innerText = 'Submit';
+    formSubmit.appendChild(formSubmitButton);
+
+    var completionMessage = document.createElement('h6');
+    completionMessage.innerText = 'All done! \n Your score is ' + points;
+    endText.appendChild(completionMessage);
 
 }
 
@@ -132,8 +158,8 @@ ul.addEventListener('click', function(event) {
 // At the end of the quiz, a pop up  comes up with a form to input your initials.
 // You will have an option to view high scores
 
-//When button is clicked, check to see if it is the correct answer
-    // if correct answer, display message that says 'correct' and issue point
-    // if wrong answer, display message that says 'incorrect'
-// Go to the next question and set of answers when a question has been answered
+// When the last question is answered, a form comes up to enter your intials. 
+    // We tell the test taker that they are done
+    // We tell the test taker their final score
+// After submission, they are taken to a page that shows the high scores
 
